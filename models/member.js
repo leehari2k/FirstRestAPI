@@ -1,16 +1,16 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const courseSchema = new Schema({
+const memberSchema = new Schema({
     name: {
         type: String,
         require: true,
     },
-    des: String,
-    members: [{
+    age: Number,
+    course: {
         type: Schema.Types.ObjectId,
-        ref: 'Member',
-    }],
+        ref: 'Course',
+    },
 })
 
-module.exports = Course = mongoose.model('Course', courseSchema)
+module.exports = Member = mongoose.model('Member', memberSchema)

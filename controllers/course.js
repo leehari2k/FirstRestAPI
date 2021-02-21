@@ -1,9 +1,8 @@
-const Courses = require('../models/course')
-const { json } = require('express')
+const Course = require('../models/course')
 
 const getAllCourses = async (req, res, next) => {
     try {
-        const courses = await Courses.find({})
+        const courses = await Course.find({})
         return res.status(200).json({courses})
     } catch (err) {
         next(err)
@@ -12,7 +11,7 @@ const getAllCourses = async (req, res, next) => {
 
 const createCourse = async (req, res, next) => { 
     try {
-        const newCourse = new Courses(req.body)
+        const newCourse = new Course(req.body)
         await newCourse.save()
         return res.status(201).json({course: newCourse})
     } catch (err) {
@@ -23,7 +22,7 @@ const createCourse = async (req, res, next) => {
 const getCourse = async (req, res, next) => {
     try {
         const { courseId } = req.params
-        const course = await Courses.findById(courseId)
+        const course = await Course.findById(courseId)
         if (!course) throw new Error('Not found')
         return res.status(200).json(course)
     } catch (err) {
@@ -34,11 +33,11 @@ const getCourse = async (req, res, next) => {
 const replaceCourse = async (req, res, next) => {
     try {
         const { courseId } = req.params
-        const course = Courses.findById(courseId)
+        const course = Course.findById(courseId)
         if (!course) throw new Error('Not found')
 
         const newCourse = req.body
-        await Courses.findByIdAndUpdate(courseId, newCourse)
+        await Course.findByIdAndUpdate(courseId, newCourse)
         return res.status(200).json({success: true})
     } catch (err) {
         next(err)
@@ -48,7 +47,7 @@ const replaceCourse = async (req, res, next) => {
 const updateCourse = async (req, res, next) => {
     try {
         const { courseId } = req.params
-        const course = Courses.findById(courseId)
+        const course = Course.findById(courseId)
         if (!course) throw new Error('Not found')
 
         const newCourse = req.body
@@ -58,13 +57,18 @@ const updateCourse = async (req, res, next) => {
         next(err)
     } 
 }
-const deleteCourse = (req, res) => {
-    const course = courses.find(c => c.id === parseInt(req.params.id))
-    if (!course) return res.status(404).send('Not found')
 
-    const index = courses.indexOf(course)
-    courses.splice(index,1)
-    return res.send(course)
+const deleteCourse = async (req, res, next) => {
+    try {
+        const { courseId } = req.params
+        const course = Course.findById(courseId)
+        if (!course) throw new Error('Not found')
+
+        await Courses.findByIdAndRemove(courseId)
+        return res.status(200).json({success: true})
+    } catch (err) {
+        next(err)
+    }
 }
 
 

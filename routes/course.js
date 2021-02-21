@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const courseController = require('../controllers/course')
+const memberController = require('../controllers/member')
 
 module.exports = router
 
@@ -15,6 +16,10 @@ router.route('/courses/:courseId')
     .put(courseController.replaceCourse)
     .patch(courseController.updateCourse)
     .delete(courseController.deleteCourse)
+
+router.route('/courses/:courseId/members')
+    .get(memberController.getAllMembers)
+    .post(memberController.createMember)
     
 
 
