@@ -5,6 +5,7 @@ const courseSchema = new Schema({
     name: {
         type: String,
         require: true,
+        match: /^[a-zA-Z]{10}$/,
     },
     des: String,
     members: [{
