@@ -7,6 +7,7 @@ const memberSchema = new Schema({
         require: true,
     },
     age: Number,
+    email: String,
     course: {
         type: Schema.Types.ObjectId,
         ref: 'Course',

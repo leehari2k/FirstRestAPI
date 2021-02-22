@@ -11,7 +11,11 @@ const getAllCourses = async (req, res, next) => {
 
 const createCourse = async (req, res, next) => { 
     try {
-        const newCourse = new Course(req.body)
+        const newCourse = new Course({
+            name: req.body.name,
+            des: req.body.des,
+            members: req.body.members
+        })
         await newCourse.save()
         return res.status(201).json({course: newCourse})
     } catch (err) {

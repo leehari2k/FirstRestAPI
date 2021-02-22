@@ -6,7 +6,7 @@ module.exports.validateBody = schema => {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
           return next()
-        }   
-        return res.status(errors.status).json({ errors: errors.message })
+        }
+        return res.status(422).json(errors.array())
     }
 }

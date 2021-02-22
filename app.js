@@ -3,12 +3,14 @@ const express = require('express')
 const handleError = require('./middleware/handle_error/index')
 const mongoose = require('mongoose')
 const routes = require('./routes/course')
+const routesMember = require('./routes/member')
 
 const app = express()
 
 app.use(bodyParser.json())
 app.use(express.json())   
 app.use('/', routes)
+app.use('/', routesMember)
 
 //connect to mongodb  
 mongoose.connect('mongodb://localhost:27017/courses', { useNewUrlParser: true, useUnifiedTopology: true })
