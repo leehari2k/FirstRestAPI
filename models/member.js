@@ -8,6 +8,10 @@ const memberSchema = new Schema({
     },
     age: Number,
     email: String,
+    phone: {
+        type: String,
+        validate: /^\d{10}$/
+    },
     course: {
         type: Schema.Types.ObjectId,
         ref: 'Course',

@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator')
 
-module.exports.validateBody = schema => {
-    schema()
+exports.validateBody = () => {
     return (req, res, next) => {
         const errors = validationResult(req);
         if (errors.isEmpty()) {

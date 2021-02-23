@@ -8,7 +8,7 @@ const { validateBody } = require('../middleware/router_validator/body')
 const router = express.Router()
 
 router.route('/courses/:courseId/members')
-    .get(validateBody(createMember),memberController.getAllMembers)
-    .post(memberController.createMember)
+    .get(memberController.getAllMembers)
+    .post(createMember(),validateBody(),memberController.createMember)
     
 module.exports = router

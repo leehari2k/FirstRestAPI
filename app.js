@@ -1,9 +1,9 @@
 const bodyParser = require('body-parser')
 const express = require('express')
-const handleError = require('./middleware/handle_error/index')
 const mongoose = require('mongoose')
 const routes = require('./routes/course')
 const routesMember = require('./routes/member')
+
 
 const app = express()
 
@@ -21,13 +21,13 @@ mongoose.connect('mongodb://localhost:27017/courses', { useNewUrlParser: true, u
 app.use((err, req, res, next) => {
     const error = app.get('env') === 'development' ? err : {}
     const status = error.status || 500
-
+ 
     return res.status(status).json({
         error: {
             message: error.message
         }
     })
-})   
+ }) 
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Listen on port: ${port}`))

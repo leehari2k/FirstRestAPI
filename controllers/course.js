@@ -55,8 +55,8 @@ const updateCourse = async (req, res, next) => {
         if (!course) throw new Error('Not found')
 
         const newCourse = req.body
-        await Courses.findByIdAndUpdate(courseId, newCourse)
-        return res.status(200).json({success: true})
+        await Course.findByIdAndUpdate(courseId, newCourse)
+        return res.status(200).json({ success: true })
     } catch (err) {
         next(err)
     } 
@@ -68,8 +68,17 @@ const deleteCourse = async (req, res, next) => {
         const course = Course.findById(courseId)
         if (!course) throw new Error('Not found')
 
-        await Courses.findByIdAndRemove(courseId)
-        return res.status(200).json({success: true})
+        await Course.findByIdAndRemove(courseId)
+        return res.status(200).json({ success: true })
+    } catch (err) {
+        next(err)
+    }
+}
+
+const deleteAllCourses = async (req, res, next) => {
+    try {
+        await Course.deleteMany()
+        return res.status(200).json({ success: true })
     } catch (err) {
         next(err)
     }
@@ -82,5 +91,6 @@ module.exports = {
     createCourse,
     updateCourse,
     replaceCourse,
-    deleteCourse
+    deleteCourse,
+    deleteAllCourses,
 }

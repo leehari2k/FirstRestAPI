@@ -6,8 +6,13 @@ const createMember = async (req, res, next) => {
         const { courseId } = req.params
         const course = await Course.findById(courseId)
 
-        const newMember = new Member(req.body)
-        newMember.course = course
+        const newMember = new Member({
+            name: req.body.name,
+            age: req.body.age,
+            email: req.body.email,
+            phone: req.body.phone,
+            course: courseId
+        })
         await newMember.save()
 
         course.members.push(newMember._id)
