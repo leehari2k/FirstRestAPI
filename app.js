@@ -1,3 +1,7 @@
+const {
+    PORT,
+    MONGODB_URI
+} = require('./config/index')
 const bodyParser = require('body-parser')
 const express = require('express')
 const mongoose = require('mongoose')
@@ -13,7 +17,7 @@ app.use('/', routes)
 app.use('/', routesMember)
 
 //connect to mongodb  
-mongoose.connect('mongodb://localhost:27017/courses', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Ket noi thanh cong"))
     .catch((error) => console.error('Ket noi that bai: ', error))
 
@@ -29,5 +33,4 @@ app.use((err, req, res, next) => {
     })
  }) 
 
-const port = process.env.PORT || 3000
-app.listen(port, () => console.log(`Listen on port: ${port}`))
+app.listen(PORT, () => console.log(`Listen on port: ${PORT}`))
