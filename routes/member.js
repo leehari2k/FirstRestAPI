@@ -2,13 +2,14 @@ const express = require('express')
 
 const memberController = require('../controllers/member')
 
-const { createMember } = require('../middleware/router_validator/schema/member')
-const { validateBody } = require('../middleware/router_validator/body')
+const { validateMember } = require('../middleware/router_validator/schema/member')
+const { validateParamCourseId  } = require('../middleware/router_validator/schema/course')
+const { validate } = require('../middleware/router_validator/body')
 
 const router = express.Router()
 
 router.route('/courses/:courseId/members')
-    .get(memberController.getAllMembers)
-    .post(createMember(),validateBody(),memberController.createMember)
+    .get(validateParamCourseId(), validate(), memberController.getAllMembers)
+    .post(validateParamCourseId(), validateMember(), validate(), memberController.createMember)
     
 module.exports = router

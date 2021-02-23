@@ -2,6 +2,7 @@ const {
     PORT,
     MONGODB_URI
 } = require('./config/index')
+
 const bodyParser = require('body-parser')
 const express = require('express')
 const mongoose = require('mongoose')
