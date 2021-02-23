@@ -11,6 +11,6 @@ const {
     PORT
 } = process.env
 
-exports.PORT = PORT || 3000
+exports.PORT = PORT || 8080
 exports.JWT_SECRET = JWT_SECRET
 exports.MONGODB_URI = MONGODB_URI
