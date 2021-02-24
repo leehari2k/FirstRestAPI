@@ -104,6 +104,7 @@ const update = async (req, res, next) => {
 
 module.exports = {
     getAll,
+    getAllOfAnUser,
     getOne,
     create,
     update,
