@@ -1,6 +1,7 @@
 exports.HTTP_STATUS_CODE = {
     CREATE: 201,
     OK: 200,
+    BAD_REQUEST: 400,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
     REQUEST_TIMEOUT: 408,

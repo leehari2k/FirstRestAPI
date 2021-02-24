@@ -2,6 +2,9 @@ const {
     PORT,
     MONGODB_URI
 } = require('./config/index')
+const {
+    HTTP_STATUS_CODE
+} = require('./constant/index')
 
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -25,7 +28,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
 //handle error
 app.use((err, req, res, next) => {
     const error = app.get('env') === 'development' ? err : {}
-    const status = error.status || 500
+    const status = error.status || HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR
  
     return res.status(status).json({
         error: {
