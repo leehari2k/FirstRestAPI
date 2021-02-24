@@ -1,5 +1,5 @@
-const Member = require('../models/member')
-const Course = require('../models/course')
+const Member = require('../models/user.model')
+const Course = require('../models/post.model')
 const {
     HTTP_STATUS_CODE
 } = require('../constant')

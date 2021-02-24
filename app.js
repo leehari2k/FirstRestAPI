@@ -32,6 +32,6 @@ app.use((err, req, res, next) => {
             message: error.message
         }
     })
- }) 
+}) 
 
 app.listen(PORT, () => console.log(`Listen on port: ${PORT}`))

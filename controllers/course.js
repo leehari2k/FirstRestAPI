@@ -23,7 +23,7 @@ const createCourse = async (req, res, next) => {
         return res.status(HTTP_STATUS_CODE.CREATE).json({course: newCourse})
     } catch (err) {
         next(err)
-    }  
+    }
 }
 
 const getCourse = async (req, res, next) => {

@@ -10,6 +10,6 @@ exports.validateCourse = () => {
 }
 exports.validateParamCourseId = () => {
     return [
-        param('courseId', 'courseId is invalid').custom(str => /^[a-zA-F0-9]{24}$/.test(str))
+        param('courseId', 'courseId is invalid').custom(str => /^[a-zA-Z0-9]{24}$/.test(str))
     ]
 }
