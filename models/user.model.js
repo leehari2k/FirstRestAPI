@@ -5,6 +5,7 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: true,
+        minLength: 3,
     },
     email: {
         type: String,
@@ -13,11 +14,11 @@ const userSchema = new Schema({
     },
     phone: {
         type: String,
-        validate: /^\d{10}$/
+        match: /^\d{10}$/ // validate: /^\d{10}$/
     },
     password: {
         type: String,
-        minLength: 3,
+        minLength: 6,
         required: true,
     },
     postId: {
