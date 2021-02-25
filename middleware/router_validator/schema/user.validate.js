@@ -8,7 +8,7 @@ exports.validateUser = () => {
         check('email', 'email must be format of email').isEmail(),
         check('password', 'password must be more than 6 characters').isLength({ min: 6 }),
         check('password', 'password is required').not().isEmpty(),
-        check('phone', 'Invalid does not phoneNumber').custom(str => /^\d{10}$/.test(str)),
+        check('phone', 'phone is invalid').custom(str => /^\d{10}$/.test(str)),
     ]
 }
 

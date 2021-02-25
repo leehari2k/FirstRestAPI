@@ -14,10 +14,8 @@ const create = async (req, res, next) => {
             status: HTTP_STATUS_CODE.NOT_FOUND,
         })
 
-        const {} = req.body.value
-        const obj = {}
-        const newPost = new Post({obj})
-        newPost.ownerIdPost = userID        
+        const newPost = new Post(req.body)
+        newPost.ownerIdPost = userID
         const result = await newPost.save()
 
         if (!result) throw new Object({
@@ -32,7 +30,7 @@ const create = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
     try {
-        const posts = await Post.findById({})
+        const posts = await Post.find({})
         return res.status(HTTP_STATUS_CODE.OK).json({posts})
     } catch (err) {
         next(err)
@@ -49,18 +47,22 @@ const getAllOfAnUser = async (req, res, next) => {
         })
 
         const posts = await Post.find(userID => {
-           return ownerIdPost == userID
+           return Post.ownerIdPost == userID
         })
     } catch (err) {
         next(err)
     }
 }
+
 const getOne = async (req, res, next) => {
     try {
-        const { courseId } = req.params
-        const course = await Course.findById(courseId)
-        if (!course) throw new Error('Not found')
-        return res.status(HTTP_STATUS_CODE.OK).json(course)
+        const { postID } = req.params
+        const post = await Post.findById(postID)
+        if (!post) throw new Object({
+            message: 'Post not found',
+            status: HTTP_STATUS_CODE.NOT_FOUND,
+        })
+        return res.status(HTTP_STATUS_CODE.OK).json(post)
     } catch (err) {
         next(err)
     }
@@ -68,11 +70,30 @@ const getOne = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
     try {
-        const { courseId } = req.params
-        const course = Course.findById(courseId)
-        if (!course) throw new Error('Not found')
+        const { postID, userID } = req.params
 
-        await Course.findByIdAndRemove(courseId)
+        const user = await User.findById(userID)
+        if (!user) throw new Object({
+            message: 'User not found',
+            status: HTTP_STATUS_CODE.NOT_FOUND,
+        })
+
+        const post = await Post.findById(postID)
+        if (!post) throw new Object({
+            message: 'Post not found',
+            status: HTTP_STATUS_CODE.NOT_FOUND,
+        })
+
+        if (post.ownerIdPost !== userID) throw new Object({
+            message: 'You do not have permission to remove this post',
+            status: HTTP_STATUS_CODE.BAD_REQUEST,
+        })
+
+        const result = await Post.findByIdAndRemove(postID)
+        if (!result) throw new Object({
+            message: 'Remove failed',
+            status: HTTP_STATUS_CODE.BAD_REQUEST,
+        })
         return res.status(HTTP_STATUS_CODE.OK).json({ success: true })
     } catch (err) {
         next(err)
@@ -81,7 +102,11 @@ const remove = async (req, res, next) => {
 
 const removeAll = async (req, res, next) => {
     try {
-        await Course.deleteMany()
+        const result = await Post.deleteMany()
+        if (!result) throw new Object({
+            message: 'Remove failed',
+            status: HTTP_STATUS_CODE.BAD_REQUEST,
+        })
         return res.status(HTTP_STATUS_CODE.OK).json({ success: true })
     } catch (err) {
         next(err)
@@ -90,12 +115,31 @@ const removeAll = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const { courseId } = req.params
-        const course = Course.findById(courseId)
-        if (!course) throw new Error('Not found')
+        const { postID, userID } = req.params
 
-        const newCourse = req.body
-        await Course.findByIdAndUpdate(courseId, newCourse)
+        const user = await User.findById(userID)
+        if (!user) throw new Object({
+            message: 'User not found',
+            status: HTTP_STATUS_CODE.NOT_FOUND,
+        })
+
+        const post = await Post.findById(postID)
+        if (!post) throw new Object({
+            message: 'Post not found',
+            status: HTTP_STATUS_CODE.NOT_FOUND,
+        })
+
+        if (post.ownerIdPost !== userID) throw new Object({
+            message: 'You do not have permission to edit this post',
+            status: HTTP_STATUS_CODE.BAD_REQUEST,
+        })
+
+        const newPost = req.body
+        const result = await Post.findByIdAndUpdate(postID, newPost)
+        if (!result) throw new Object({
+            message: 'Update failed',
+            status: HTTP_STATUS_CODE.BAD_REQUEST,
+        })
         return res.status(HTTP_STATUS_CODE.OK).json({ success: true })
     } catch (err) {
         next(err)

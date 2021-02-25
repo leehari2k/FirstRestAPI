@@ -10,20 +10,22 @@ const postSchema = new Schema({
     title: {
         type: String,
         require: true,
+        trim: true,
     },
     contentPost: {
         type: String,
         required: true,
+        trim: true,
     },
     date:{
         datePost: {
-            type: String,
-            default: `${Date.now}`
+            type: Date,
+            default: Date.now,
         },
-        dateModified: [{
-            type: String,
-            default: `${Date.now}`
-        }]
+        dateModified: {
+            type: Date,
+            default: Date.now,
+        }
     },
     comment: [{
         ownerIdComment: {
@@ -34,15 +36,16 @@ const postSchema = new Schema({
         contentComment: {
             type: String,
             required: true,
+            trim: true,
         },
         date: {
             datePost: {
-                type: String,
-                default: `${Date.now}`
+                type: Date,
+                default: Date.now,
             },
             dateModified: [{
-                type: String,
-                default: `${Date.now}`
+                type: Date,
+                default: Date.now,
             }]
         },
         reply: [{
@@ -54,6 +57,7 @@ const postSchema = new Schema({
             contentReply: {
                 type: String,
                 required: true,
+                trim: true,
             },
         }]
     }]

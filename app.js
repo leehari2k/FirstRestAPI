@@ -9,8 +9,8 @@ const {
 const bodyParser = require('body-parser')
 const express = require('express')
 const mongoose = require('mongoose')
-const routes = require('./routes/course')
-const routesMember = require('./routes/member')
+const routes = require('./routes/post.route')
+const routesUser = require('./routes/user.route')
 
 
 const app = express()
@@ -18,7 +18,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(express.json())   
 app.use('/', routes)
-app.use('/', routesMember)
+app.use('/', routesUser)
 
 //connect to mongodb  
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })

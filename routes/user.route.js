@@ -10,10 +10,10 @@ const router = express.Router()
 router.route('/users')
     .get(controller.getAll)
     .post(validateUser(), getValidationResult(), controller.create)
-
+    .delete(controller.removeAll)
 router.route('/users/:userID')
-    .get(validateParamUserID(), controller.getOne)
-    .patch(validateParamUserID(), validateUser(), getValidationResult(), controller.update)
-    .delete(validateParamUserID(), getValidationResult(), controller.delete)
+    .get(validateParamUserID(), getValidationResult(), controller.getOne)
+    .post(validateParamUserID(), validateUser(), getValidationResult(), controller.update)
+    .delete(validateParamUserID(), getValidationResult(), controller.remove)
     
 module.exports = router

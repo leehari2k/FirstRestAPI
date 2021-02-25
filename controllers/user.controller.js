@@ -6,9 +6,7 @@ const User = require('../models/user.model')
 
 const create = async (req, res, next) => {
     try {
-        const {} = req.body.value
-        const obj = {}
-        const newUser = new User({obj})
+        const newUser = new User(req.body)
         const result = await newUser.save()
 
         if (!result) throw new Object({
@@ -16,7 +14,7 @@ const create = async (req, res, next) => {
             status: HTTP_STATUS_CODE.BAD_REQUEST,
         })
 
-        return res.status(HTTP_STATUS_CODE.CREATE).json(ewUser)       
+        return res.status(HTTP_STATUS_CODE.CREATE).json(newUser)       
     } catch (err) {
         next(err)
     }
@@ -24,7 +22,7 @@ const create = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
     try {
-        const users = await User.findById({})
+        const users = await User.find({})
         return res.status(HTTP_STATUS_CODE.OK).json({ users })
     } catch (err) {
         next(err)
