@@ -1,14 +1,15 @@
+const controller = require("../controllers/user.controller");
+
 const express = require("express");
 
-const controller = require("../controllers/user.controller");
+const {
+  getValidationResult,
+} = require("../middleware/router_validator/validate");
 
 const {
   validateUser,
   validateParamUserID,
 } = require("../middleware/router_validator/schema/user.validate");
-const {
-  getValidationResult,
-} = require("../middleware/router_validator/validate");
 
 const router = express.Router();
 

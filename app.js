@@ -6,17 +6,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 const routes = require("./routes/post.route");
 const routesUser = require("./routes/user.route");
+const routesAuth = require("./routes/auth.route");
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.use("/", routes);
 app.use("/", routesUser);
+app.use("/", routesAuth);
 
 //connect to mongodb
 mongoose
-  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGODB_URI, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Ket noi thanh cong"))
   .catch((error) => console.error("Ket noi that bai: ", error));
 

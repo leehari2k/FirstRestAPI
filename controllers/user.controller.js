@@ -8,10 +8,9 @@ const create = async (req, res, next) => {
     const result = await newUser.save();
 
     if (!result)
-      throw new Object({
-        message: "Create failed",
-        status: HTTP_STATUS_CODE.BAD_REQUEST,
-      });
+    return res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
+      error: "Create failed"
+    })
 
     return res.status(HTTP_STATUS_CODE.CREATE).json(newUser);
   } catch (err) {
@@ -33,10 +32,9 @@ const getOne = async (req, res, next) => {
     const { userID } = req.params;
     const user = await User.findById(userID);
     if (!user)
-      throw new Object({
-        message: "Not found",
-        status: HTTP_STATUS_CODE.NOT_FOUND,
-      });
+    return res.status(HTTP_STATUS_CODE.NOT_FOUND).json({
+      error: "User not found"
+    })
     return res.status(HTTP_STATUS_CODE.OK).json(user);
   } catch (err) {
     next(err);
@@ -48,17 +46,15 @@ const remove = async (req, res, next) => {
     const { userID } = req.params;
     const user = await User.findById(userID);
     if (!user)
-      throw new Object({
-        message: "Not found",
-        status: HTTP_STATUS_CODE.NOT_FOUND,
-      });
+    return res.status(HTTP_STATUS_CODE.NOT_FOUND).json({
+      error: "User not found"
+    })
 
     const result = await User.findByIdAndRemove(userID);
     if (!result)
-      throw new Object({
-        message: "Remove failed",
-        status: HTTP_STATUS_CODE.BAD_REQUEST,
-      });
+    return res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
+      error: "Remove failed"
+    })
     return res.status(HTTP_STATUS_CODE.OK).json({ success: true });
   } catch (err) {
     next(err);
@@ -69,10 +65,9 @@ const removeAll = async (req, res, next) => {
   try {
     const result = await User.deleteMany();
     if (!result)
-      throw new Object({
-        message: "Remove failed",
-        status: HTTP_STATUS_CODE.BAD_REQUEST,
-      });
+    return res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
+      error: "Remove failed"
+    })
     return res.status(HTTP_STATUS_CODE.OK).json({ success: true });
   } catch (err) {
     next(err);
@@ -84,18 +79,16 @@ const update = async (req, res, next) => {
     const { userID } = req.params;
     const user = await User.findById(userID);
     if (!user)
-      throw new Object({
-        message: "Not found",
-        status: HTTP_STATUS_CODE.NOT_FOUND,
-      });
+    return res.status(HTTP_STATUS_CODE.NOT_FOUND).json({
+      error: "User not found"
+    })
 
     const newUser = req.body;
     const result = await User.findByIdAndUpdate(userID, newUser);
     if (!result)
-      throw new Object({
-        message: "Update failed",
-        status: HTTP_STATUS_CODE.BAD_REQUEST,
-      });
+    return res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
+      error: "Update failed"
+    })
     return res.status(HTTP_STATUS_CODE.OK).json({ success: true });
   } catch (err) {
     next(err);
