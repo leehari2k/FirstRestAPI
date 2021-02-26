@@ -1,6 +1,6 @@
-const controller = require('../controllers/auth.controller')
+const controller = require("../controllers/auth.controller");
 
-const express = require('express')
+const express = require("express");
 
 const {
   getValidationResult,
@@ -11,9 +11,10 @@ const {
   validateParamUserID,
 } = require("../middleware/router_validator/schema/user.validate");
 
-const router = express.Router()
+const router = express.Router();
 
-router.route('/register')
-  .post(validateUser(), getValidationResult(), controller.register)
+router
+  .route("/register")
+  .post(validateUser(), getValidationResult(), controller.register);
 
-module.exports = router
+module.exports = router;
