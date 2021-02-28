@@ -5,7 +5,8 @@ const result = dotenv.config({
 if (result.error) {
   throw result.error;
 }
-const { MONGODB_URI, PORT } = process.env;
+const { MONGODB_URI, PORT, JWT_SECRET } = process.env;
 
+exports.JWT_SECRET = JWT_SECRET
 exports.PORT = PORT || 8080;
 exports.MONGODB_URI = MONGODB_URI;

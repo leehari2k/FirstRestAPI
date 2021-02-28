@@ -4,9 +4,15 @@ const User = require("../models/user.model");
 
 const create = async (req, res, next) => {
   try {
-    const newUser = new User(req.body);
+    const { username, email, phone, password } = req.body;
+    const emailExists = await User.findOne({ email });
+    if (emailExists)
+      return res.status(HTTP_STATUS_CODE.FORBIDDEN).json({
+        error: "Email is already exists",
+      });
+      
+    const newUser = new User({ username, email, phone, password });
     const result = await newUser.save();
-
     if (!result)
       return res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({
         error: "Create failed",

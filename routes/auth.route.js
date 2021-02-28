@@ -17,4 +17,8 @@ router
   .route("/register")
   .post(validateUser(), getValidationResult(), controller.register);
 
+  router
+  .route("/signup")
+  .post(controller.signUp);
+
 module.exports = router;
