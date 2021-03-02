@@ -6,7 +6,7 @@ const User = require("../models/user.model");
 const encodedToken = (userID) => {
   return JWT.sign(
     {
-      iss: "Le Ngoc Hai",
+      iss: "LeNgHai",
       id: userID,
       iat: new Date().getTime(),
       exp: new Date().setDate(new Date().getDate() + 1),
@@ -39,19 +39,29 @@ const register = async (req, res, next) => {
   }
 };
 
-const signUp = async (req, res, next) => {
+const login = async (req, res, next) => {
   try {
     const email = req.body.email;
     const user = await User.find({ email });
-    console.log(user);
-    const token = encodedToken(user._id);
+    if (!user) {
+      return res.status(HTTP_STATUS_CODE.NOT_FOUND).json({error: "User not found"})
+    }
+    if (user[0].password != req.body.password) {
+      return res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({error: "Password is incorrect"})
+    }
+    const token = encodedToken(user[0]._id);
     res.setHeader("Authorization", token);
     return res.status(HTTP_STATUS_CODE.OK).json({ success: true });
   } catch (err) {
     next(err);
   }
 };
+
+const authToken = async (req, res, next) => {
+  return res.status(HTTP_STATUS_CODE.OK).json({resources: true})
+}
 module.exports = {
   register,
-  signUp,
+  login,
+  authToken,
 };
