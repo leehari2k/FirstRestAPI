@@ -21,10 +21,11 @@ router
 
 router.route("/login").post(controller.login);
 
-router
-  .route("/authToken")
-  .get(passport.authenticate("jwt", {
-    session: false
-}), controller.authToken);
+router.route("/authToken").get(
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  controller.authToken
+);
 
 module.exports = router;
