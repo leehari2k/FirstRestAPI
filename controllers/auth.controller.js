@@ -43,12 +43,6 @@ const login = async (req, res, next) => {
   try {
     const email = req.body.email;
     const user = await User.find({ email });
-    if (!user) {
-      return res.status(HTTP_STATUS_CODE.NOT_FOUND).json({error: "User not found"})
-    }
-    if (user[0].password != req.body.password) {
-      return res.status(HTTP_STATUS_CODE.BAD_REQUEST).json({error: "Password is incorrect"})
-    }
     const token = encodedToken(user[0]._id);
     res.setHeader("Authorization", token);
     return res.status(HTTP_STATUS_CODE.OK).json({ success: true });

@@ -1,6 +1,5 @@
 const { PORT, MONGODB_URI } = require("./config/index");
 const { HTTP_STATUS_CODE } = require("./constant/index");
-const passport = require("passport");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
