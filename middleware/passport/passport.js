@@ -34,8 +34,9 @@ passport.use(
         const user = await User.findOne({ email: email });
         if (!user) return done(null, false);
 
-        if (user.password != password) return done(null, false);
-        
+        const isCorrectPassword = await user.verifyPassword(password);
+        if (!isCorrectPassword) return done(null, false);
+
         done(null, user);
       } catch (err) {
         done(err, false);
