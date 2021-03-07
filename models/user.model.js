@@ -20,7 +20,19 @@ const userSchema = new Schema({
   password: {
     type: String,
     minLength: 6,
-    required: true,
+  },
+  authType: {
+    type: String,
+    enum: ["google", "facebook", "local"],
+    default: "local",
+  },
+  authGoogleID: {
+    type: String,
+    default: null,
+  },
+  authFacebookID: {
+    type: String,
+    default: null,
   },
   postId: {
     type: Schema.Types.ObjectId,
@@ -30,6 +42,7 @@ const userSchema = new Schema({
 
 userSchema.pre("save", async function (next) {
   try {
+    if (this.authType != 'local') return next();
     const salt = await bcryptjs.genSalt(10);
     const passwordHashed = await bcryptjs.hash(this.password, salt);
     this.password = passwordHashed;

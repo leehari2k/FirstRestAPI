@@ -17,6 +17,12 @@ const {} = require("../middleware/passport/passport"); //* config passport
 router.use(passport.initialize());
 
 router
+  .route("/auth/google")
+  .post(
+    passport.authenticate("google-plus-token", { session: false }),
+    controller.authGoogle
+  );
+router
   .route("/register")
   .post(validateUser(), getValidationResult(), controller.register);
 
@@ -38,7 +44,6 @@ router.route("/login").post(
   }),
   controller.login
 );
-
 
 router.route("/authToken").get(
   passport.authenticate("jwt", {

@@ -15,6 +15,20 @@ const encodedToken = (userID) => {
   );
 };
 
+const authGoogle = async (req, res, next) => {
+  try {
+    const token = encodedToken(req.user._id);
+    res.setHeader("Authorization", token);
+    return res.status(HTTP_STATUS_CODE.OK).json({ success: true });
+  } catch (err) {
+    next(err)
+  }
+};
+
+const authToken = async (req, res, next) => {
+  return res.status(HTTP_STATUS_CODE.OK).json({ resources: true });
+};
+
 const register = async (req, res, next) => {
   try {
     const { username, email, phone, password } = req.body;
@@ -51,11 +65,9 @@ const login = async (req, res, next) => {
   }
 };
 
-const authToken = async (req, res, next) => {
-  return res.status(HTTP_STATUS_CODE.OK).json({resources: true})
-}
 module.exports = {
   register,
   login,
   authToken,
+  authGoogle,
 };
