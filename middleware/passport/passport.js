@@ -2,11 +2,14 @@ const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 const GooglePlusTokenStrategy = require("passport-google-plus-token");
+const FacebookTokenStrategy = require('passport-facebook-token')
 const { ExtractJwt } = require("passport-jwt");
 const {
   JWT_SECRET,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
+  FACEBOOK_CLIENT_ID,
+  FACEBOOK_CLIENT_SECRET,
 } = require("../../config/index");
 const User = require("../../models/user.model");
 
@@ -67,6 +70,37 @@ passport.use(
         const newUser = new User({
           authType: 'google',
           authGoogleID: profile.id,
+          email: profile.emails[0].value,
+          username: profile.displayName,
+        })       
+        await newUser.save()
+
+        done(null, newUser);
+      } catch (err) {
+        done(err, false);
+      }
+    }
+  )
+);
+
+
+passport.use(
+  new FacebookTokenStrategy(
+    {
+      clientID: FACEBOOK_CLIENT_ID,
+      clientSecret: FACEBOOK_CLIENT_SECRET,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const isExistsUser = await User.countDocuments(
+          { authFacebookID: profile.id, authType: "facebook" },
+          (err, count) => count
+        );
+        if (isExistsUser) return done(null, false)
+
+        const newUser = new User({
+          authType: 'facebook',
+          authFacebookID: profile.id,
           email: profile.emails[0].value,
           username: profile.displayName,
         })       

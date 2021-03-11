@@ -22,6 +22,14 @@ router
     passport.authenticate("google-plus-token", { session: false }),
     controller.authGoogle
   );
+
+router
+  .route("/auth/facebook")
+  .post(
+    passport.authenticate("facebook-token", { session: false }),
+    controller.authFacebook
+  );
+
 router
   .route("/register")
   .post(validateUser(), getValidationResult(), controller.register);

@@ -25,6 +25,16 @@ const authGoogle = async (req, res, next) => {
   }
 };
 
+const authFacebook = async (req, res, next) => {
+  try {
+    const token = encodedToken(req.user._id);
+    res.setHeader("Authorization", token);
+    return res.status(HTTP_STATUS_CODE.OK).json({ success: true });
+  } catch (err) {
+    next(err)
+  }
+};
+
 const authToken = async (req, res, next) => {
   return res.status(HTTP_STATUS_CODE.OK).json({ resources: true });
 };
@@ -70,4 +80,5 @@ module.exports = {
   login,
   authToken,
   authGoogle,
+  authFacebook,
 };
